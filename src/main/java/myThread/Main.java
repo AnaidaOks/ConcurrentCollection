@@ -11,6 +11,7 @@ public class Main {
     public static BlockingQueue<String> bqSecond = new ArrayBlockingQueue<>(100);
     public static BlockingQueue<String> bqThird = new ArrayBlockingQueue<>(100);
     public static final int textsLength = 10_000;
+
     public static void main(String[] args) throws InterruptedException {
 
         new Thread(() -> {
@@ -34,68 +35,68 @@ public class Main {
 
         // count 'a'
         new Thread(() -> {
-            for (int i = 0; i < 100; i++) {
-                try {
-                    String text = bqFirst.take();
-                    AtomicInteger aCounter = new AtomicInteger(0);
-                    for (int j = 0; j < text.length(); j++) {
-                        if (text.charAt(j) == 'a') {
-                            aCounter.getAndIncrement();
-                        }
-                    }
 
-                    if (aMaxCount.get() < aCounter.get()) {
-                        aMaxCount.set(aCounter.get());
-                        aText.set(text);
+            try {
+                String text = bqFirst.take();
+                AtomicInteger aCounter = new AtomicInteger(0);
+                for (int j = 0; j < text.length(); j++) {
+                    if (text.charAt(j) == 'a') {
+                        aCounter.getAndIncrement();
                     }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
+
+                if (aMaxCount.get() < aCounter.get()) {
+                    aMaxCount.set(aCounter.get());
+                    aText.set(text);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+
         }).start();
 
         // count 'b'
         new Thread(() -> {
-            for (int i = 0; i < 100; i++) {
-                try {
-                    String text = bqSecond.take();
-                    AtomicInteger bCounter = new AtomicInteger(0);
-                    for (int j = 0; j < text.length(); j++) {
-                        if (text.charAt(j) == 'b') {
-                            bCounter.getAndIncrement();
-                        }
-                    }
 
-                    if (bMaxCount.get() < bCounter.get()) {
-                        bMaxCount.set(bCounter.get());
-                        bText.set(text);
+            try {
+                String text = bqSecond.take();
+                AtomicInteger bCounter = new AtomicInteger(0);
+                for (int j = 0; j < text.length(); j++) {
+                    if (text.charAt(j) == 'b') {
+                        bCounter.getAndIncrement();
                     }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
+
+                if (bMaxCount.get() < bCounter.get()) {
+                    bMaxCount.set(bCounter.get());
+                    bText.set(text);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+
         }).start();
 
         // count 'c'
         new Thread(() -> {
-            for (int i = 0; i < 100; i++) {
-                try {
-                    String text = bqThird.take();
-                    AtomicInteger cCounter = new AtomicInteger(0);
-                    for (int j = 0; j < text.length(); j++) {
-                        if (text.charAt(j) == 'c') {
-                            cCounter.getAndIncrement();
-                        }
-                    }
 
-                    if (cMaxCount.get() < cCounter.get()) {
-                        cMaxCount.set(cCounter.get());
-                        cText.set(text);
+            try {
+                String text = bqThird.take();
+                AtomicInteger cCounter = new AtomicInteger(0);
+                for (int j = 0; j < text.length(); j++) {
+                    if (text.charAt(j) == 'c') {
+                        cCounter.getAndIncrement();
                     }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
+
+                if (cMaxCount.get() < cCounter.get()) {
+                    cMaxCount.set(cCounter.get());
+                    cText.set(text);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+
         }).start();
 
 
